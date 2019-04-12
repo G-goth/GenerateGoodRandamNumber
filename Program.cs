@@ -6,32 +6,40 @@ namespace GenerateGoodRandamNumber
 {
     class Program
     {
-        private static readonly int RICHITR = 5;
+        // private static readonly int RICHITR = 5;
         private static readonly int ITRNUM = 10000;
 
-        public static int GeneratStairBiasRandamNumbers(int itrNum)
+        public static List<int> GeneratStairBiasRandamNumbers(int itrNum)
         {
-            if(itrNum < 0) return 0;
+            List<int> source = new List<int>() {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 10};
+            List<int> randList = new List<int>();
+            Random random = new Random();
+            int randomIndex;
+            int randomValue;
 
-            int[] stairBiasRand_1 = Enumerable.Repeat(1, 20).ToArray();
-            int[] stairBiasRand_2 = Enumerable.Repeat(1, 17).ToArray();
-            int[] stairBiasRand_3 = Enumerable.Repeat(1, 14).ToArray();
-            int[] stairBiasRand_4 = Enumerable.Repeat(1, 12).ToArray();
-            int[] stairBiasRand_5 = Enumerable.Repeat(1, 11).ToArray();
-            int[] stairBiasRand_6 = Enumerable.Repeat(1, 10).ToArray();
-            int[] stairBiasRand_7 = Enumerable.Repeat(1, 6).ToArray();
-            int[] stairBiasRand_8 = Enumerable.Repeat(1, 5).ToArray();
-            int[] stairBiasRand_9 = Enumerable.Repeat(1, 4).ToArray();
-            Console.WriteLine(stairBiasRand_1.Length);
-            return 0;
+            for (int i = 0; i < itrNum; ++i)
+            {
+                randomIndex = random.Next(source.Count);
+                randomValue = source[randomIndex];
+                randList.Add(randomValue);
+            }
+            return randList;
         }
         public static int GeneratGoodRandamNumbers(int itrNum)
         {
             if(itrNum < 0) return 0;
 
             int richRand = 0;
+            int itrNumLower = 0;
+            int itrNumUpper = 0;
+            itrNumLower = itrNum / 2;
+            itrNumUpper = itrNumLower;
             Random geneRand = new Random();
-            for(int i = 0; i <= itrNum; ++i)
+            for(int i = 0; i <= itrNumLower; ++i)
+            {
+                richRand += geneRand.Next(1, 3);
+            }
+            for(int i = 0; i <= itrNumUpper; ++i)
             {
                 richRand += geneRand.Next(1, 11);
             }
@@ -41,7 +49,8 @@ namespace GenerateGoodRandamNumber
         {
             Random geneRand = new Random();
             List<int> randNumList = new List<int>();
-            var randNumArray = Enumerable.Range(0, itrNum).Select(rand => GeneratGoodRandamNumbers(RICHITR)).ToArray();
+            // var randNumArray = Enumerable.Range(0, itrNum).Select(rand => GeneratGoodRandamNumbers(RICHITR)).ToArray();
+            var randNumArray = GeneratStairBiasRandamNumbers(itrNum).ToArray();
             var richRandNum = Enumerable.Range(1, 10).Select(index => randNumArray.Count(n => n == index)).ToArray();
             for(int i = 1; i < richRandNum.Length; ++i)
             {
@@ -50,8 +59,7 @@ namespace GenerateGoodRandamNumber
         }
         static void Main(string[] args)
         {
-            // GoodRandamNumber(ITRNUM);
-            GeneratStairBiasRandamNumbers(ITRNUM);
+            GoodRandamNumber(ITRNUM);
         }
     }
 }
