@@ -7,7 +7,7 @@ namespace GenerateGoodRandamNumber
     class Program
     {
         // private static readonly int RICHITR = 5;
-        private static readonly int ITRNUM = 10000;
+        private static readonly int ITRNUM = 36;
 
         // 好きな偏り方の乱数を作るためのリストを返す
         public static List<int> OneselfGeneratStairBiasRandamNumbers(int repeatCount, int num)
