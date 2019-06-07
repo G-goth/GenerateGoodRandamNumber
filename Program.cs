@@ -10,10 +10,13 @@ namespace GenerateGoodRandamNumber
         private static readonly int ITRNUM = 36;
 
         // 好きな偏り方の乱数を作るためのリストを返す
-        public static List<int> OneselfGeneratStairBiasRandamNumbers(int repeatCount, int num)
+        public static List<int> OneselfGeneratStairBiasRandamNumbers(int repeatCount, int num, int coeff)
         {
+            // coeffが0以下なら即リターン
             List<int> selfSource = new List<int>();
-            selfSource = Enumerable.Repeat(num, repeatCount).ToList();
+            if(coeff < 0) return selfSource;
+
+            selfSource = Enumerable.Repeat(num, repeatCount * coeff).ToList();
             return selfSource;
         }
         public static List<int> GeneratStairBiasRandamNumbers(int itrNum)
@@ -93,16 +96,29 @@ namespace GenerateGoodRandamNumber
                 Console.WriteLine("Number " + (i + 1) + " is " + richRandNum[i]);
             }
         }
+        public static void GoodRandamNumberKingyoCoung(int itrNum, List<int> seedList)
+        {
+            Random geneRand = new Random();
+            List<int> randNumList = new List<int>();
+            // var randNumArray = Enumerable.Range(0, itrNum).Select(rand => GeneratGoodRandamNumbers(RICHITR)).ToArray();
+            var randNumArray = GeneratStairBiasRandamNumbers(itrNum, seedList).ToArray();
+            var richRandNum = Enumerable.Range(1, 5).Select(index => randNumArray.Count(n => n == index)).ToArray();
+            for(int i = 0; i < richRandNum.Length; ++i)
+            {
+                Console.WriteLine("Kingyo " + (i + 1) + " is " + richRandNum[i]);
+            }
+        }
+
         static void Main(string[] args)
         {
             // GoodRandamNumber(ITRNUM);
             List<int> seedList = new List<int>();
-            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(50, 1));
-            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(25, 2));
-            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(15, 3));
-            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(8, 4));
-            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(2, 5));
-            GoodRandamNumber(ITRNUM, seedList);
+            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(50, 1, 1));
+            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(25, 2, 1));
+            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(15, 3, 1));
+            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(8, 4, 1));
+            seedList.AddRange(OneselfGeneratStairBiasRandamNumbers(2, 5, 1));
+            GoodRandamNumberKingyoCoung(ITRNUM, seedList);
         }
     }
 }
